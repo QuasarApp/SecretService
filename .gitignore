@@ -70,6 +70,7 @@ _deps
 build.gradle
 AndroidManifest.xml
 src/service/deploy/SecretService.json
+src/example/deploy/SecretService.json
 global.h
 doxygen.conf
 Distro
