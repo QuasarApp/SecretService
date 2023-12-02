@@ -30,7 +30,7 @@ updateGitVars()
 
 qt_add_executable(${CURRENT_PROJECT} ${ALL_SOURCES})
 
-target_link_libraries(${CURRENT_PROJECT} PUBLIC ${PROJECT_NAME}Core)
+target_link_libraries(${CURRENT_PROJECT} PUBLIC ${PROJECT_NAME}Core Patronum)
 
 target_include_directories(${CURRENT_PROJECT} PUBLIC ${PUBLIC_INCUDE_DIR})
 target_include_directories(${CURRENT_PROJECT} PRIVATE ${PRIVATE_INCUDE_DIR})

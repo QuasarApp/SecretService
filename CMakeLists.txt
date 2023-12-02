@@ -6,7 +6,7 @@
 #
 
 cmake_minimum_required(VERSION 3.19)
-project(RENAME_ME LANGUAGES CXX)
+project(SecretService LANGUAGES CXX)
 if(TARGET ${PROJECT_NAME})
   message("The ${PROJECT_NAME} arledy included in main Project")
   return()
@@ -24,37 +24,44 @@ if (ANDROID OR IOS)
     set(BUILD_SHARED_LIBS ON)
 endif()
 
-find_package(Qt6 COMPONENTS Core REQUIRED)
+find_package(Qt6 COMPONENTS Core Network Sql Concurrent REQUIRED)
 find_package(Qt6 COMPONENTS Test QUIET)
 
-include(submodules/CMake/QuasarApp.cmake)
+include(submodules/Heart/submodules/QuasarAppLib/CMake/QuasarApp.cmake)
 
 updateGitVars()
-set(RENAME_ME_VERSION "0.${GIT_COMMIT_COUNT}.${GIT_COMMIT_HASH}")
-set(RENAME_ME_PACKAGE_ID "quasarapp.core.RENAME_ME")
+set(SECRETSERVICE_VERSION "0.${GIT_COMMIT_COUNT}.${GIT_COMMIT_HASH}")
+set(SECRETSERVICE_PACKAGE_ID "quasarapp.core.secretservice")
 
-option(RENAME_ME_TESTS "This option disables or enables tests of the ${PROJECT_NAME} project"  ON)
-option(RENAME_ME_EXAMPLE "This option disables or enables example app of the ${PROJECT_NAME} project" ON)
+option(SECRETSERVICE_TESTS "This option disables or enables tests of the ${PROJECT_NAME} project"  ON)
+option(SECRETSERVICE_EXAMPLE "This option disables or enables example app of the ${PROJECT_NAME} project" ON)
 
 if (ANDROID OR IOS OR QA_WASM32)
-    set(RENAME_ME_TESTS OFF CACHE BOOL "This option force disbled for ANDROID IOS QA_WASM32 and Not Qt projects" FORCE)
+    set(SECRETSERVICE_TESTS OFF CACHE BOOL "This option force disbled for ANDROID IOS QA_WASM32 and Not Qt projects" FORCE)
 endif()
 
 make_directory(Distro)
 
 initAll()
 
-if (RENAME_ME_TESTS)
+if (SECRETSERVICE_TESTS)
     add_subdirectory(src/testcore)
 endif()
 
-add_subdirectory(src/RENAME_ME)
+set(HEART_TESTS OFF)
+add_subdirectory(submodules/Heart)
 
-if (DEFINED RENAME_ME_EXAMPLE)
+add_subdirectory(src/core)
+
+set(PATRONUM_TESTS OFF)
+add_subdirectory(submodules/Patronum)
+add_subdirectory(src/service)
+
+if (DEFINED SECRETSERVICE_EXAMPLE)
     add_subdirectory(src/example)
 endif()
 
-if (RENAME_ME_TESTS)
+if (SECRETSERVICE_TESTS)
     add_subdirectory(tests)
 else()
     message("The ${PROJECT_NAME} tests is disabled.")

@@ -5,23 +5,23 @@
 //# of this license document, but changing it is not allowed.
 //#
 
-#include "RENAME_ME/global.h"
+#include "QASecret/global.h"
 #include <QString>
 
-inline void initRENAME_MEResources() { Q_INIT_RESOURCE(RENAME_ME); }
+inline void initSecretServiceResources() { Q_INIT_RESOURCE(secretcore); }
 
-namespace RENAME_ME {
+namespace QASecret {
 
 /**
- * @brief init main initialize method of The RENAME_ME library
+ * @brief init main initialize method of The SecretService library
  * @return true if library initialized successfull
  */
-bool RENAME_ME_EXPORT init();
+bool SECRETSERVICE_EXPORT init();
 
 /**
  * @brief version This method return string value of a library version
  * @return string value of a library version
  */
-QString RENAME_ME_EXPORT version();
+QString SECRETSERVICE_EXPORT version();
 
 };

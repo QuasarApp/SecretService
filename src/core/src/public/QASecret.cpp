@@ -5,18 +5,23 @@
 //# of this license document, but changing it is not allowed.
 //#
 
-#include "RENAME_ME.h"
+#include "QASecret.h"
+
+#include <QASecret/keystorage.h>
 
 
-namespace RENAME_ME {
+namespace QASecret {
 
 bool init() {
-    initRENAME_MEResources();
+    initSecretServiceResources();
+
+    KeyStorage::initService();
+
     return true;
 }
 
 QString version() {
-    return RENAME_ME_VERSION;
+    return SECRETSERVICE_VERSION;
 }
 
 
