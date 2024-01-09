@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2020-2023 QuasarApp.
+# Copyright (C) 2020-2024 QuasarApp.
 # Distributed under the GPLv3 software license, see the accompanying
 # Everyone is permitted to copy and distribute verbatim copies
 # of this license document, but changing it is not allowed.
@@ -7,8 +7,8 @@
 
 cmake_minimum_required(VERSION 3.19)
 
-set(CURRENT_PROJECT "${PROJECT_NAME}Core")
-add_definitions(-DSECRETSERVICE_LIBRARY)
+set(CURRENT_PROJECT "${PROJECT_NAME}DB")
+add_definitions(-DSECRETDB_LIBRARY)
 
 
 file(GLOB_RECURSE SOURCE_CPP
@@ -25,20 +25,16 @@ set(PRIVATE_INCUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src/private")
 
 add_library(${CURRENT_PROJECT} ${SOURCE_CPP} ${SOURCE_QRC})
 
-if (SECRETSERVICE_TESTS)
-    target_link_libraries(${CURRENT_PROJECT} PUBLIC ${PROJECT_NAME}testcore)
-endif()
 
-target_link_libraries(${CURRENT_PROJECT} PUBLIC Qt${QT_VERSION_MAJOR}::Core "${PROJECT_NAME}DB")
+target_link_libraries(${CURRENT_PROJECT} PUBLIC Heart )
+
 
 target_include_directories(${CURRENT_PROJECT} PUBLIC ${PUBLIC_INCUDE_DIR})
 target_include_directories(${CURRENT_PROJECT} PRIVATE ${PRIVATE_INCUDE_DIR})
-
-set(LANGS ${CMAKE_CURRENT_SOURCE_DIR}/languages/en.ts)
 
 
 prepareQM(${CURRENT_PROJECT} ${CMAKE_CURRENT_SOURCE_DIR} "${LANGS}")
 
 set(QML_IMPORT_PATH ${QML_IMPORT_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/src" CACHE STRING "" FORCE)
 
-configure_file_in(${CURRENT_PROJECT} "${CMAKE_CURRENT_SOURCE_DIR}/src/public/QASecret/global.h")
+configure_file_in(${CURRENT_PROJECT} "${CMAKE_CURRENT_SOURCE_DIR}/src/public/SecretDB/global.h")

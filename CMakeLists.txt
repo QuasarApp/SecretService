@@ -51,6 +51,7 @@ endif()
 set(HEART_TESTS OFF)
 add_subdirectory(submodules/Heart)
 
+add_subdirectory(src/db)
 add_subdirectory(src/core)
 
 set(PATRONUM_TESTS OFF)
