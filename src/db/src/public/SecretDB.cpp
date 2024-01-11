@@ -7,7 +7,7 @@
 
 #include "SecretDB.h"
 
-#include <botdatabase.h>
+#include <secretdatabase.h>
 
 
 namespace QASecret {
@@ -18,7 +18,7 @@ bool init() {
 }
 
 QSharedPointer<IDataBase> database() {
-    auto db = QSharedPointer<BotDataBase>::create();
+    auto db = QSharedPointer<SecretDataBase>::create();
     db->initSqlDb();
 
     return db;

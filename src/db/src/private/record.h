@@ -6,11 +6,11 @@
 //#
 
 
-#ifndef IMAGE_H
-#define IMAGE_H
+#ifndef RECORD_H
+#define RECORD_H
 
 #include "dbobject.h"
-#include <SecretDB/iimage.h>
+#include <SecretDB/irecord.h>
 
 #include <QByteArray>
 #include <QString>
@@ -18,19 +18,20 @@
 namespace  QASecret {
 
 /**
- * @brief The Image class
+ * @brief The Record class
  */
-class Image : public QH::PKG::DBObject, public iImage
+class Record : public QH::PKG::DBObject, public iRecord
 {
 public:
-    Image();
+    Record();
 
-    // iImage interface
-
-    const QString &getId() const override;
-    void setId(const QString &id) override;
-    const QByteArray &getImage() const override;
-    void setImage(const QByteArray &source) override;
+    // iRecord interface
+    const QString &getAlias() const override;
+    void setAlias(const QString &alias) override;
+    const QByteArray &getHash() const override;
+    void setHash(const QByteArray &source) override;
+    const QByteArray &getData() const override;
+    void setData(const QByteArray &newData) override;
 
     // DBObject interface
     QH::PKG::DBObject* createDBObject() const override;
@@ -42,8 +43,9 @@ public:
     QVariant primaryValue() const override;
 
 private:
-    QString _id;
-    QByteArray _image;
+    QString _alias;
+    QByteArray _hash;
+    QByteArray _data;
 };
 }
-#endif // IMAGE_H
+#endif // RECORD_H
