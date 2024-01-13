@@ -39,4 +39,12 @@ bool SecretDataBase::saveRecord(const QSharedPointer<iRecord> &record) {
     return db()->replaceObject(record.staticCast<Record>(), true);
 }
 
+bool SecretDataBase::removeRecordByAlias(const QString &alias) {
+    return deleteById<Record>(alias, &Record::setAlias);
+}
+
+bool SecretDataBase::removeRecordByKey(const QByteArray &hash) {
+    return deleteById<Record>(hash, &Record::setHash);
+}
+
 }

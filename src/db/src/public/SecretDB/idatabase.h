@@ -46,6 +46,20 @@ public:
      * @return true if the object will save
      */
     virtual bool saveRecord(const QSharedPointer<iRecord>& record) = 0;
+
+    /**
+     * @brief removeRecordByAlias This method will remove record by alias.
+     * @param alias alias of the record that will be removed.
+     * @return true if function finished succesful else false.
+     */
+    virtual bool removeRecordByAlias(const QString& alias) = 0;
+
+    /**
+     * @brief removeRecordByKey This method will remove record by hash key.
+     * @param hash is the key of the record that will be removed.
+     * @return true if function finished succesful else false.
+     */
+    virtual bool removeRecordByKey(const QByteArray& hash) = 0;
 };
 }
 

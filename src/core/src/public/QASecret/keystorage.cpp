@@ -10,33 +10,45 @@
 
 namespace QASecret {
 
-KeyStorage::KeyStorage() {}
+KeyStorage::KeyStorage(const QSharedPointer<DBSecret::IDataBase> &db) {
+    _db = db;
+}
 
 QByteArray KeyStorage::add(const QByteArray &value, const QString &alias) {
-    QByteArray&& key = QCryptographicHash::hash(value, QCryptographicHash::Sha256);
-    _storage[key] = value;
-    _aliases[alias] = value;
 
-    return key;
+    if (auto record = _db->getRecordByAlias(alias, true)) {
+        record->setData(value);
+        if (_db->saveRecord(record)) {
+            return record->getHash();
+        }
+    }
+
+    return {};
 }
 
 void KeyStorage::remove(const QByteArray &key) {
-    _storage.remove(key);
+    _db->removeRecordByKey(key);
 }
 
 void KeyStorage::remove(const QString &alias) {
-    _aliases.remove(alias);
+    _db->removeRecordByAlias(alias);
 }
 
 QByteArray KeyStorage::get(const QByteArray &key) {
-    auto&& result = _storage.value(key);
+    if (auto&& result = _db->getRecordByHash(key)) {
+        return result->getData();
 
-    return result;
+    }
+
+    return "";
 }
 
 QByteArray KeyStorage::get(const QString &alias) {
-    auto&& result = _aliases.value(alias);
+    if (auto&& result = _db->getRecordByAlias(alias)) {
+        return result->getData();
 
-    return result;
+    }
+
+    return "";
 }
 }

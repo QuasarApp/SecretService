@@ -8,14 +8,15 @@
 #include "QASecret.h"
 
 #include <QASecret/keystorage.h>
-
+#include <SecretDB.h>
 
 namespace QASecret {
 
 bool init() {
     initSecretServiceResources();
+    DBSecret::init();
 
-    KeyStorage::initService();
+    KeyStorage::initService(std::make_unique<KeyStorage>(DBSecret::database()));
 
     return true;
 }

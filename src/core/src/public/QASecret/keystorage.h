@@ -8,10 +8,12 @@
 #ifndef KEYSTORAGE_H
 #define KEYSTORAGE_H
 
+#include "SecretDB/idatabase.h"
 #include "qaservice.h"
 #include <QHash>
 
 namespace QASecret {
+
 
 /**
  * @brief The KeyStorage class the storage store seccrets values on the simple key - value table. Where value is secrete and key is a sha256(secret) hash.
@@ -19,7 +21,7 @@ namespace QASecret {
 class KeyStorage: public QuasarAppUtils::Service<KeyStorage>
 {
 public:
-    KeyStorage();
+    KeyStorage(const QSharedPointer<DBSecret::IDataBase>& db);
 
     /**
      * @brief add adds to storage new value, and return access key.
@@ -56,8 +58,7 @@ public:
     QByteArray get(const QString& alias);
 
 private:
-    QHash<QByteArray, QByteArray> _storage;
-    QHash<QString, QByteArray> _aliases;
+    QSharedPointer<DBSecret::IDataBase> _db;
 
 };
 }

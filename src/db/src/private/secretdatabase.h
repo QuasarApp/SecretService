@@ -25,6 +25,8 @@ public:
     QSharedPointer<iRecord> getRecordByHash(const QByteArray &hash, bool ifNotExistsCreate) override;
     bool saveRecord(const QSharedPointer<iRecord> &record) override;
 
+    bool removeRecordByAlias(const QString &alias) override;
+    bool removeRecordByKey(const QByteArray &hash) override;
 };
 }
 #endif // BOTDATABASE_H

@@ -61,4 +61,20 @@ void DBTest::test() {
     QVERIFY2(result2->getAlias() == result->getAlias(), "should be some as a prev object");
     QVERIFY2(result2->getHash() == result->getHash(), "should be some as a prev object");
     QVERIFY2(result2->getData() == result->getData(), "should be some as a prev object");
+
+    database->removeRecordByAlias("test");
+    QVERIFY2(!database->getRecordByAlias("test"), "should be empty on first run");
+    QVERIFY2(!database->getRecordByHash(dataHash), "should be empty on first run");
+
+    database->saveRecord(result);
+    result2 = database->getRecordByAlias("test");
+
+    QVERIFY2(result2->getAlias() == result->getAlias(), "should be some as a prev object");
+    QVERIFY2(result2->getHash() == result->getHash(), "should be some as a prev object");
+    QVERIFY2(result2->getData() == result->getData(), "should be some as a prev object");
+
+    database->removeRecordByKey(dataHash);
+    QVERIFY2(!database->getRecordByAlias("test"), "should be empty on first run");
+    QVERIFY2(!database->getRecordByHash(dataHash), "should be empty on first run");
+
 }
