@@ -9,7 +9,7 @@ cmake_minimum_required(VERSION 3.19)
 
 get_filename_component(CURRENT_PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 
-set(CURRENT_PROJECT "${PROJECT_NAME}_${CURRENT_PROJECT_DIR}")
+set(CURRENT_PROJECT "QuasarApp${PROJECT_NAME}")
 option(SIGN_APP "This option enable od disabled sign apk and aab files" ON)
 
 file(GLOB_RECURSE SOURCE_CPP
@@ -38,73 +38,12 @@ target_include_directories(${CURRENT_PROJECT} PRIVATE ${PRIVATE_INCUDE_DIR})
 SET(TARGET_DIR "${CMAKE_SOURCE_DIR}/Distro")
 file(MAKE_DIRECTORY ${TARGET_DIR})
 
-if (ANDROID)
+# Desctop deploying
 
-    set(ANDROID_PACKAGE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/android CACHE INTERNAL "")
-    set(ENV{ANDROID_API_VERSION} 31)
-    set(ANDROID_API_VERSION $ENV{ANDROID_API_VERSION})
-    set(OPENSSL_ROOT_PATH "$ENV{OPENSSL_ROOT_DIR}")
+message(GIT_COMMIT_COUNT = ${GIT_COMMIT_COUNT})
+configure_file_in(${CURRENT_PROJECT} "${CMAKE_CURRENT_SOURCE_DIR}/deploy/SecretService.json")
 
-    set(SecretService_EXTRA_LIBS
-        ${PROJECT_NAME}Library
-#        libName
-        )
-
-    if (SIGN_APP)
-        message("SIGN_APP")
-        addDeploySignedAPK(${CURRENT_PROJECT}
-            "${CMAKE_CURRENT_LIST_DIR}/android"
-            "QuasarAppProject"
-            "${SIGPATH}/quasarapp.keystore"
-            "${SIGPASS_QUASARAPP}"
-            "${TARGET_DIR}"
-            "${SecretService_EXTRA_LIBS}")
-
-    else()
-        message("NO_SIGN_APP")
-
-        addDeployAPK(${CURRENT_PROJECT}
-            "${CMAKE_CURRENT_LIST_DIR}/android"
-            "${TARGET_DIR}"
-            "${SecretService_EXTRA_LIBS}")
-
-    endif()
-    set(manifest_file "${CMAKE_CURRENT_SOURCE_DIR}/android/AndroidManifest.xml")
-    configure_file("${manifest_file}.in" ${manifest_file} @ONLY)
-
-    set(gradle_file "${CMAKE_CURRENT_SOURCE_DIR}/android/build.gradle")
-    configure_file("${gradle_file}.in" ${gradle_file} @ONLY)
-
-    file(GLOB java_files
-       "android/src/com/quasarapp/androidtools/*.java"
-       "android/*.xml"
-       "android/*.gradle"
-       "android/gradlew"
-       "android/gradle.*"
-
-    )
-
-    add_custom_target(${name}Android
-        SOURCES ${java_files}
-    )
-
-elseif(IOS)
-#    set_xcode_property(${CURRENT_PROJECT} PRODUCT_BUNDLE_IDENTIFIER ${CHEATCARD_PACKAGE_ID} All)
-
-    set_target_properties(${CURRENT_PROJECT} PROPERTIES
-        MACOSX_BUNDLE_GUI_IDENTIFIER ${SECRETSERVICE_PACKAGE_ID}
-        MACOSX_BUNDLE_BUNDLE_VERSION ${SECRETSERVICE_VERSION}
-        MACOSX_BUNDLE_SHORT_VERSION_STRING ${SECRETSERVICE_VERSION}
-    )
-else()
-    # Desctop deploying
-
-    message(GIT_COMMIT_COUNT = ${GIT_COMMIT_COUNT})
-    configure_file_in(${CURRENT_PROJECT} "${CMAKE_CURRENT_SOURCE_DIR}/deploy/SecretService.json")
-
-    addDeployFromCustomFile(${CURRENT_PROJECT} "${CMAKE_CURRENT_SOURCE_DIR}/deploy/SecretService.json")
-
-endif()
+addDeployFromCustomFile(${CURRENT_PROJECT} "${CMAKE_CURRENT_SOURCE_DIR}/deploy/SecretService.json")
 
 set(LANGS ${CMAKE_CURRENT_SOURCE_DIR}/languages/en.ts
           ${CMAKE_CURRENT_SOURCE_DIR}/languages/ru.ts
