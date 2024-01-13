@@ -1,5 +1,5 @@
 //#
-//# Copyright (C) 2023-2024 QuasarApp.
+//# Copyright (C) 2024-2024 QuasarApp.
 //# Distributed under the GPLv3 software license, see the accompanying
 //# Everyone is permitted to copy and distribute verbatim copies
 //# of this license document, but changing it is not allowed.
@@ -15,7 +15,7 @@
 #include <QByteArray>
 #include <QString>
 
-namespace  QASecret {
+namespace DBSecret {
 
 /**
  * @brief The Record class
@@ -31,7 +31,7 @@ public:
     const QByteArray &getHash() const override;
     void setHash(const QByteArray &source) override;
     const QByteArray &getData() const override;
-    void setData(const QByteArray &newData) override;
+    const QByteArray & setData(const QByteArray &newData) override;
 
     // DBObject interface
     QH::PKG::DBObject* createDBObject() const override;

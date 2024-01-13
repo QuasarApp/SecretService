@@ -10,7 +10,7 @@
 
 #include "global.h"
 
-namespace QASecret {
+namespace DBSecret {
 
 /**
  * @brief The iRecord class This is main interface for all records of database
@@ -53,8 +53,9 @@ public:
     /**
      * @brief setData This method sets new data of record.
      * @param newData this is new value of data.
+     * @return return hash data value.
      */
-    virtual void setData(const QByteArray& newData) = 0;
+    virtual const QByteArray& setData(const QByteArray& newData) = 0;
 
 };
 

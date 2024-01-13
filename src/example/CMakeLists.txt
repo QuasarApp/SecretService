@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2021-2023 QuasarApp.
+# Copyright (C) 2024-2024 QuasarApp.
 # Distributed under the GPLv3 software license, see the accompanying
 # Everyone is permitted to copy and distribute verbatim copies
 # of this license document, but changing it is not allowed.
@@ -30,7 +30,7 @@ updateGitVars()
 
 qt_add_executable(${CURRENT_PROJECT} ${ALL_SOURCES})
 
-target_link_libraries(${CURRENT_PROJECT} PUBLIC ${PROJECT_NAME}Core)
+target_link_libraries(${CURRENT_PROJECT} PUBLIC ${PROJECT_NAME})
 
 target_include_directories(${CURRENT_PROJECT} PUBLIC ${PUBLIC_INCUDE_DIR})
 target_include_directories(${CURRENT_PROJECT} PRIVATE ${PRIVATE_INCUDE_DIR})

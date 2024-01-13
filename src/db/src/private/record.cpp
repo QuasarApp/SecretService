@@ -1,5 +1,5 @@
 //#
-//# Copyright (C) 2023-2024 QuasarApp.
+//# Copyright (C) 2024-2024 QuasarApp.
 //# Distributed under the GPLv3 software license, see the accompanying
 //# Everyone is permitted to copy and distribute verbatim copies
 //# of this license document, but changing it is not allowed.
@@ -9,7 +9,7 @@
 
 #include <QCryptographicHash>
 
-namespace  QASecret {
+namespace  DBSecret {
 
 Record::Record() {}
 
@@ -48,7 +48,7 @@ QVariant Record::primaryValue() const {
     return _hash;
 }
 
-const QString &QASecret::Record::getAlias() const {
+const QString &Record::getAlias() const {
     return _alias;
 }
 
@@ -68,10 +68,10 @@ const QByteArray &Record::getData() const {
     return _data;
 }
 
-void Record::setData(const QByteArray &newData) {
+const QByteArray &Record::setData(const QByteArray &newData) {
     _data = newData;
-
     setHash(QCryptographicHash::hash(_data, QCryptographicHash::Sha256));
+    return getHash();
 }
 
 }

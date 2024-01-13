@@ -7,7 +7,7 @@
 
 
 #include "irecord.h"
-namespace  QASecret {
+namespace  DBSecret {
 
 iRecord::iRecord() {}
 }

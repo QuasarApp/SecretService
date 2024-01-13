@@ -6,7 +6,7 @@
 //#
 
 #include "idatabase.h"
-namespace  QASecret {
+namespace  DBSecret {
 
 IDataBase::IDataBase()
 {

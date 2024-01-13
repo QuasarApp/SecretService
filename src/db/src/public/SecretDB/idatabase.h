@@ -15,7 +15,7 @@
 #include "irecord.h"
 
 
-namespace  QASecret {
+namespace  DBSecret {
 /**
  * @brief The IDataBase class Main database
  */
