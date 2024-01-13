@@ -7,6 +7,7 @@
 
 
 #include "dbtest.h"
+#include "heart.h"
 #include <SecretDB.h>
 
 DBTest::DBTest() {
@@ -18,6 +19,7 @@ DBTest::~DBTest() {
 }
 
 void DBTest::test() {
+    QH::init();
     DBSecret::init();
     auto database = DBSecret::database();
 
@@ -29,7 +31,7 @@ void DBTest::test() {
     QSharedPointer<DBSecret::iRecord> result;
     QVERIFY2((result = database->getRecordByAlias("test", true)), "must creat a new empty record");
 
-    QVERIFY2(database->getRecordByAlias("test"),
+    QVERIFY2(!database->getRecordByAlias("test"),
              "still should be empty because the getRecordByAlias with creation option do not save object into database");
 
     QVERIFY2(result->getAlias() == "test", "verify alias");
@@ -39,7 +41,7 @@ void DBTest::test() {
     auto dataHash = result->setData("secret");
 
     QVERIFY2(result->getAlias() == "test", "verify configured record");
-    QVERIFY2(result->getData() == "test", "verify configured record");
+    QVERIFY2(result->getData() == "secret", "verify configured record");
     QVERIFY2(result->getHash() == QCryptographicHash::hash("secret",
                                                            QCryptographicHash::Sha256).toBase64(QByteArray::Base64UrlEncoding),
              "verify configured record");
@@ -50,9 +52,13 @@ void DBTest::test() {
 
     auto result2 = database->getRecordByAlias("test");
 
-    QVERIFY2(result2.data() == result.data(), "should be some as a prev object");
+    QVERIFY2(result2->getAlias() == result->getAlias(), "should be some as a prev object");
+    QVERIFY2(result2->getHash() == result->getHash(), "should be some as a prev object");
+    QVERIFY2(result2->getData() == result->getData(), "should be some as a prev object");
 
     result2 = database->getRecordByHash(dataHash);
 
-    QVERIFY2(result2.data() == result.data(), "should be some as a prev object");
+    QVERIFY2(result2->getAlias() == result->getAlias(), "should be some as a prev object");
+    QVERIFY2(result2->getHash() == result->getHash(), "should be some as a prev object");
+    QVERIFY2(result2->getData() == result->getData(), "should be some as a prev object");
 }

@@ -8,8 +8,7 @@
 #include "idatabase.h"
 namespace  DBSecret {
 
-IDataBase::IDataBase()
-{
+IDataBase::IDataBase() {
 
 }
 }

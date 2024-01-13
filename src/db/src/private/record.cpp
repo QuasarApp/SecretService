@@ -32,7 +32,7 @@ QString Record::table() const {
 
 QH::PKG::DBVariantMap Record::variantMap() const {
     return {
-        {"hash",  {_hash,  QH::PKG::MemberType::Unique}},
+        {"hash",  {_hash,  QH::PKG::MemberType::PrimaryKey}},
         {"alias", {_alias, static_cast<QH::PKG::MemberType>(static_cast<int>(QH::PKG::MemberType::InsertUpdate) |
                                                             static_cast<int>(QH::PKG::MemberType::Unique))}},
         {"data",  {_data,  QH::PKG::MemberType::Insert}}
@@ -41,11 +41,17 @@ QH::PKG::DBVariantMap Record::variantMap() const {
 }
 
 QString Record::primaryKey() const {
-    return "hash";
+    if (_hash.size())
+        return "hash";
+
+    return "alias";
 }
 
 QVariant Record::primaryValue() const {
-    return _hash;
+    if (_hash.size())
+        return _hash;
+
+    return _alias;
 }
 
 const QString &Record::getAlias() const {
@@ -70,7 +76,7 @@ const QByteArray &Record::getData() const {
 
 const QByteArray &Record::setData(const QByteArray &newData) {
     _data = newData;
-    setHash(QCryptographicHash::hash(_data, QCryptographicHash::Sha256));
+    setHash(QCryptographicHash::hash(_data, QCryptographicHash::Sha256).toBase64(QByteArray::Base64UrlEncoding));
     return getHash();
 }
 

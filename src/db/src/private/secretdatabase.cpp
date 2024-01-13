@@ -6,6 +6,7 @@
 //#
 
 #include "secretdatabase.h"
+#include "record.h"
 #include <QCryptographicHash>
 #include <dbobjectsrequest.h>
 #include <sqldb.h>
@@ -26,16 +27,16 @@ SecretDataBase::SecretDataBase() {
 
 QSharedPointer<iRecord>
 SecretDataBase::getRecordByAlias(const QString &alias, bool ifNotExistsCreate) {
-
+    return getById<Record>(alias, &Record::setAlias, ifNotExistsCreate);
 }
 
 QSharedPointer<iRecord>
 SecretDataBase::getRecordByHash(const QByteArray &hash, bool ifNotExistsCreate) {
-
+    return getById<Record>(hash, &Record::setHash, ifNotExistsCreate);
 }
 
 bool SecretDataBase::saveRecord(const QSharedPointer<iRecord> &record) {
-
+    return db()->replaceObject(record.staticCast<Record>(), true);
 }
 
 }
