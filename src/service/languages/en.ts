@@ -36,10 +36,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You forget a hash key of alias of getting data. Please use the next command get -hash yourHash or get -alias yourAlias</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>This is description of the ping command</source>
         <translation type="unfinished"></translation>
     </message>
@@ -69,6 +65,10 @@
     </message>
     <message>
         <source>Hash kay of data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You forget a hash key of alias of getting  data. Please use the next command get -hash yourHash or get -alias yourAlias</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

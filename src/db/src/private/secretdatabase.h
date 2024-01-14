@@ -18,6 +18,7 @@ class SecretDataBase: public IDataBase, public QH::DataBase
 {
 public:
     SecretDataBase();
+    QVariantMap defaultDbParams() const override;
 
     // IDataBase interface
 public:

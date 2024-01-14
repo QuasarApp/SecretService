@@ -6,6 +6,7 @@
 //#
 
 #include "secretdatabase.h"
+#include <QCoreApplication>
 #include "record.h"
 #include <QCryptographicHash>
 #include <dbobjectsrequest.h>
@@ -23,6 +24,14 @@ SecretDataBase::SecretDataBase() {
         }
     });
 
+}
+
+QVariantMap SecretDataBase::defaultDbParams() const {
+    return {
+        {QH_DB_DRIVER, "QSQLITE"},
+        {QH_DB_FILE_PATH, QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/QASecret.sqlite" },
+        {QH_DB_BACKUP_PATH, QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/QASecretBackUps"}
+    };
 }
 
 QSharedPointer<iRecord>

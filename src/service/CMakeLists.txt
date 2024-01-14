@@ -9,7 +9,7 @@ cmake_minimum_required(VERSION 3.19)
 
 get_filename_component(CURRENT_PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 
-set(CURRENT_PROJECT "QuasarApp${PROJECT_NAME}")
+set(CURRENT_PROJECT "QA${PROJECT_NAME}")
 option(SIGN_APP "This option enable od disabled sign apk and aab files" ON)
 
 file(GLOB_RECURSE SOURCE_CPP
