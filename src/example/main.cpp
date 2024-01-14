@@ -5,6 +5,31 @@
 //# of this license document, but changing it is not allowed.
 //#
 
-int main(int argc, char *argv[]) {
-    return 0;
+#include "params.h"
+#include <QASecret.h>
+#include <QCoreApplication>
+#include <QTimer>
+#include <QASecret/keystorage.h>
+
+
+int main(int argc, char * argv[]) {
+
+    QCoreApplication app(argc, argv);
+    QASecret::init();
+
+    auto service = QASecret::KeyStorage::instance();
+
+    QTimer::singleShot(0, nullptr, [service]() {
+        auto hash = service->add("val");
+        auto val = service->get(hash);
+
+        if (val == "val") {
+            QuasarAppUtils::Params::log("All is fine!", QuasarAppUtils::Info);
+        }
+
+        QCoreApplication::quit();
+    });
+
+
+    return app.exec();
 }

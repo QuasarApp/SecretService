@@ -6,13 +6,14 @@
 //#
 
 #include "SecretDB.h"
-
+#include <heart.h>
 #include <secretdatabase.h>
 
 
 namespace DBSecret {
 
 bool init() {
+    QH::init();
     initSecretDBResources();
     return true;
 }

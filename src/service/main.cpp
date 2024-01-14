@@ -5,6 +5,14 @@
 //# of this license document, but changing it is not allowed.
 //#
 
+#include <secretservice.h>
+
 int main(int argc, char *argv[]) {
-    return 0;
+
+    QCoreApplication::setApplicationName("QASecret");
+    QCoreApplication::setOrganizationName("QuasarApp");
+
+    SecretService service(argc, argv);
+
+    return service.exec();
 }

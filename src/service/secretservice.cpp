@@ -13,13 +13,11 @@
 SecretService::SecretService(int argc, char **argv):
     Patronum::Service<QCoreApplication>(argc, argv) {
 
-    QASecret::init();
 }
 
 bool SecretService::onStart() {
     // call on server started
-
-    QASecret::KeyStorage::initService(std::make_unique<QASecret::KeyStorage>(DBSecret::database()));
+    QASecret::init();
 
     return true;
 }
@@ -52,41 +50,43 @@ void SecretService::handleReceiveData(const QHash<QString, Patronum::Feature> &d
     };
 
     if (fAdd) {
-        const auto&& dataVal = data.value("-data").arg();
+        const auto&& dataVal = data.value("data").arg();
+        const auto&& aliasVal = data.value("alias").arg();
+
         if (dataVal.isEmpty()) {
             sendResuylt(QuasarAppUtils::Locales::tr("You forget a data. please use the next command add -data yourDataString"));
             return;
         }
 
-        sendResuylt(storage->add(dataVal.toLatin1()));
+        sendRawResuylt(storage->add(dataVal.toLatin1(), aliasVal));
+
+    } else if ( fGet) {
+
+        const auto&& hashVal = data.value("hash").arg();
+        const auto&& aliasVal = data.value("alias").arg();
+
+        if (hashVal.isEmpty() && aliasVal.isEmpty()) {
+            sendResuylt(QuasarAppUtils::Locales::tr("You forget a hash key of alias of getting  data. "
+                                                    "Please use the next command get -hash yourHash or "
+                                                    "get -alias yourAlias"));
+            return;
+        }
+
+        if (hashVal.size()) {
+            sendRawResuylt(storage->get(hashVal.toLatin1()));
+        } else if (aliasVal.size()) {
+            sendRawResuylt(storage->get(aliasVal));
+        }
 
     } else if (fRemove) {
 
-        const auto&& hashVal = data.value("-hash").arg();
-        const auto&& aliasVal = data.value("-alias").arg();
+        const auto&& hashVal = data.value("hash").arg();
+        const auto&& aliasVal = data.value("alias").arg();
 
         if (hashVal.isEmpty() && aliasVal.isEmpty()) {
             sendResuylt(QuasarAppUtils::Locales::tr("You forget a hash key of alias of removable data. "
                                                     "Please use the next command remove -hash yourHash or "
                                                     "remove -alias yourAlias"));
-            return;
-        }
-
-        if (hashVal.size()) {
-            sendResuylt(storage->get(hashVal.toLatin1()));
-        } else if (aliasVal.size()) {
-            sendResuylt(storage->get(aliasVal));
-        }
-
-    } else if (fGet) {
-
-        const auto&& hashVal = data.value("-hash").arg();
-        const auto&& aliasVal = data.value("-alias").arg();
-
-        if (hashVal.isEmpty() && aliasVal.isEmpty()) {
-            sendResuylt(QuasarAppUtils::Locales::tr("You forget a hash key of alias of getting data. "
-                                                    "Please use the next command get -hash yourHash or "
-                                                    "get -alias yourAlias"));
             return;
         }
 
@@ -97,7 +97,7 @@ void SecretService::handleReceiveData(const QHash<QString, Patronum::Feature> &d
         }
 
     } else {
-        handleReceiveData(data);
+        Patronum::Service<QCoreApplication>::handleReceiveData(data);
     }
 }
 
