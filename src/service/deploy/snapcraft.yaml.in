@@ -1,0 +1,46 @@
+#
+# Copyright (C) 2024-2024 QuasarApp.
+# Distributed under the lgplv3 software license, see the accompanying
+# Everyone is permitted to copy and distribute verbatim copies
+# of this license document, but changing it is not allowed.
+#
+
+name: qasecretservice # you probably want to 'snapcraft register <name>'
+version: '@SECRETSERVICE_VERSION@'
+summary: Securely store confidential values on build machines from source. # 79 char long summary
+description: |
+  Secret service for open-source projects that require safely storing a confidential value on a build machine from the source.
+
+grade: stable # must be 'stable' to release into candidate/stable channels
+confinement: strict # use 'strict' once you have the right plugs and slots
+base: core22
+# icon: snap/gui/icon.png
+apps:
+  qasecretservice:
+    command: bin/bash $SNAP/QASecretService.sh
+    plugs: [home]
+
+parts:
+  qasecretservice:
+    # See 'snapcraft plugins'
+
+    plugin: dump
+    source: Distro/QASecretService_@SECRETSERVICE_VERSION@_@CMAKE_SYSTEM_NAME@_@CMAKE_SYSTEM_PROCESSOR@.zip
+
+    stage-packages:
+      - bash
+
+    # after: [ qasecretservice-meta ]
+
+    override-stage: |
+      snapcraftctl stage
+      chmod 777 -R "$SNAPCRAFT_STAGE"
+
+  # qasecretservice-meta:
+  #   plugin: dump
+  #   source: src/service/deploy/snap/
+
+  #   override-stage: |
+  #     snapcraftctl stage
+  #     chmod 777 -R "$SNAPCRAFT_STAGE"
+
