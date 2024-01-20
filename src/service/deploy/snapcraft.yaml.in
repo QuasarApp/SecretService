@@ -7,14 +7,14 @@
 
 name: qasecretservice # you probably want to 'snapcraft register <name>'
 version: '@SECRETSERVICE_VERSION@'
-summary: Secret service for open-source projects: securely store confidential values on build machines from source. # 79 char long summary
+summary: Securely store confidential values on build machines from source. # 79 char long summary
 description: |
   Secret service for open-source projects that require safely storing a confidential value on a build machine from the source.
 
 grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict # use 'strict' once you have the right plugs and slots
 base: core22
-icon: snap/gui/icon.png
+# icon: snap/gui/icon.png
 apps:
   qasecretservice:
     command: bin/bash $SNAP/QASecretService.sh
@@ -30,17 +30,17 @@ parts:
     stage-packages:
       - bash
 
-    after: [ cqt-meta ]
+    # after: [ qasecretservice-meta ]
 
     override-stage: |
       snapcraftctl stage
       chmod 777 -R "$SNAPCRAFT_STAGE"
 
-  cqt-meta:
-    plugin: dump
-    source: src/service/Deploy/snap/
+  # qasecretservice-meta:
+  #   plugin: dump
+  #   source: src/service/deploy/snap/
 
-    override-stage: |
-      snapcraftctl stage
-      chmod 777 -R "$SNAPCRAFT_STAGE"
+  #   override-stage: |
+  #     snapcraftctl stage
+  #     chmod 777 -R "$SNAPCRAFT_STAGE"
 
