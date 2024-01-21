@@ -9,6 +9,7 @@
 #include <QASecret/keystorage.h>
 #include <QTimer>
 #include <QCoreApplication>
+#include <iostream>
 #include "params.h"
 
 bool processRequest() {
@@ -44,8 +45,7 @@ bool processRequest() {
             return false;
         }
 
-        QuasarAppUtils::Params::log(storage->add(dataVal.toLatin1(), aliasVal),
-                                    QuasarAppUtils::VerboseLvl::Info);
+        std::cout << storage->add(dataVal.toLatin1(), aliasVal).toStdString() << std::endl;
 
     } else if ( fGet) {
 
@@ -60,11 +60,12 @@ bool processRequest() {
         }
 
         if (hashVal.size()) {
-            QuasarAppUtils::Params::log(storage->get(hashVal.toLatin1()),
-                                        QuasarAppUtils::VerboseLvl::Info);
+            std::cout << storage->get(hashVal.toLatin1()).toStdString() << std::endl;
+
         } else if (aliasVal.size()) {
-            QuasarAppUtils::Params::log(storage->get(aliasVal),
-                                        QuasarAppUtils::VerboseLvl::Info);
+
+            std::cout << storage->get(aliasVal).toStdString() << std::endl;
+
         }
 
     } else if (fRemove) {
