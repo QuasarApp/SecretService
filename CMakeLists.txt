@@ -35,7 +35,6 @@ set(SECRETSERVICE_VERSION "0.${GIT_COMMIT_COUNT}.${GIT_COMMIT_HASH}")
 set(SECRETSERVICE_PACKAGE_ID "quasarapp.core.secretservice")
 
 option(SECRETSERVICE_TESTS "This option disables or enables tests of the ${PROJECT_NAME} project"  ON)
-option(SECRETSERVICE_EXAMPLE "This option disables or enables example app of the ${PROJECT_NAME} project" ON)
 
 if (ANDROID OR IOS OR QA_WASM32)
     set(SECRETSERVICE_TESTS OFF CACHE BOOL "This option force disbled for ANDROID IOS QA_WASM32 and Not Qt projects" FORCE)
@@ -56,12 +55,7 @@ add_subdirectory(src/db)
 add_subdirectory(src/core)
 
 set(PATRONUM_TESTS OFF)
-add_subdirectory(submodules/Patronum)
 add_subdirectory(src/service)
-
-if (DEFINED SECRETSERVICE_EXAMPLE)
-    add_subdirectory(src/example)
-endif()
 
 if (SECRETSERVICE_TESTS)
     add_subdirectory(tests)
