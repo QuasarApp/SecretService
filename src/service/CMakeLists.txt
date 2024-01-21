@@ -62,6 +62,8 @@ addDeployFromCustomFile(${CURRENT_PROJECT} "${CMAKE_CURRENT_SOURCE_DIR}/deploy/S
 
 addDeploySnap(${CURRENT_PROJECT} "${CMAKE_SOURCE_DIR}/Distro/")
 
+addReleaseSnap( ${CURRENT_PROJECT} "stable/edge")
+
 set(LANGS ${CMAKE_CURRENT_SOURCE_DIR}/languages/en.ts
           ${CMAKE_CURRENT_SOURCE_DIR}/languages/ru.ts
           ${CMAKE_CURRENT_SOURCE_DIR}/languages/uk.ts
