@@ -74,3 +74,5 @@ src/example/deploy/SecretService.json
 global.h
 doxygen.conf
 Distro
+snap/
+*.snap

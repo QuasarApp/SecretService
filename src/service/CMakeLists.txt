@@ -30,7 +30,7 @@ updateGitVars()
 
 qt_add_executable(${CURRENT_PROJECT} ${ALL_SOURCES})
 
-target_link_libraries(${CURRENT_PROJECT} PUBLIC ${PROJECT_NAME} Patronum)
+target_link_libraries(${CURRENT_PROJECT} PUBLIC ${PROJECT_NAME})
 
 target_include_directories(${CURRENT_PROJECT} PUBLIC ${PUBLIC_INCUDE_DIR})
 target_include_directories(${CURRENT_PROJECT} PRIVATE ${PRIVATE_INCUDE_DIR})
@@ -39,11 +39,30 @@ SET(TARGET_DIR "${CMAKE_SOURCE_DIR}/Distro")
 file(MAKE_DIRECTORY ${TARGET_DIR})
 
 # Desctop deploying
+# sets qifw variable
+set(ApplicationsDir "@HomeDir@")
+set(QIFW_PLATFORM linux)
+set(INSTALLER_SUFIX ".run")
+if (WIN32)
+    set(QIFW_PLATFORM windows)
+    set(INSTALLER_SUFIX ".exe")
+    set(ApplicationsDir "@ApplicationsDir@")
+
+endif()
 
 message(GIT_COMMIT_COUNT = ${GIT_COMMIT_COUNT})
 configure_file_in(${CURRENT_PROJECT} "${CMAKE_CURRENT_SOURCE_DIR}/deploy/SecretService.json")
+# snap
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/deploy/snapcraft.yaml.in" "${CMAKE_SOURCE_DIR}/snap/snapcraft.yaml" @ONLY)
+add_custom_target(${name}Templates ALL
+    SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/deploy/snapcraft.yaml.in"
+)
 
 addDeployFromCustomFile(${CURRENT_PROJECT} "${CMAKE_CURRENT_SOURCE_DIR}/deploy/SecretService.json")
+
+addDeploySnap(${CURRENT_PROJECT} "${CMAKE_SOURCE_DIR}/Distro/")
+
+addReleaseSnap( ${CURRENT_PROJECT} "stable/edge")
 
 set(LANGS ${CMAKE_CURRENT_SOURCE_DIR}/languages/en.ts
           ${CMAKE_CURRENT_SOURCE_DIR}/languages/ru.ts

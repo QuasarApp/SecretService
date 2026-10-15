@@ -27,11 +27,7 @@ SecretDataBase::SecretDataBase() {
 }
 
 QVariantMap SecretDataBase::defaultDbParams() const {
-    return {
-        {QH_DB_DRIVER, "QSQLITE"},
-        {QH_DB_FILE_PATH, QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/QASecret.sqlite" },
-        {QH_DB_BACKUP_PATH, QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/QASecretBackUps"}
-    };
+    return QH::DataBase::defaultDbParams();
 }
 
 QSharedPointer<iRecord>
